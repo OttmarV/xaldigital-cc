@@ -15,6 +15,7 @@ services:
       - "5432:5432"
     networks:
       - postgres
+      - api
 
   centos:
     build: ./datalake/
@@ -33,6 +34,26 @@ services:
     volumes:
       - ./:/src/:ro
 
+  api:
+    build: ./api/
+    container_name: api
+    ports:
+      - "8080:8080"
+    networks:
+      - api
+    command: bash -c "python3 -u ./api/app/main.py"
+    depends_on:
+      - centos7
+    environment:
+      POSTGRES_HOST: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "example"
+      POSTGRES_DB: "db"
+    volumes:
+      - ./:/src/:ro
+
 networks:
   postgres:
+    driver: bridge
+  api:
     driver: bridge
