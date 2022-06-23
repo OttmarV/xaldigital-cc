@@ -30,6 +30,19 @@ foo@bar:~$ docker-compose up
 ![image](https://user-images.githubusercontent.com/17484897/175212602-cdef1241-5a67-49c9-bc10-e092fde5ef50.png)
 
   6. Once the load is completed, centos container will go offline. Postgres and api containers will still be running. To make sure data was loaded successfully, we will run a query through our API, reading 50 rows from the table users within the database.
+
+Query:
+``` sql
+        SELECT u.id, u.first_name, u.last_name, u.email, u.phone1, u.phone2,
+        u.zip, u.address, u.city, u.state, d.department, c.company
+        FROM users u
+        left join companies c
+        ON c.id = u.company_id
+        left join departments d
+        on d.id = u.department_id
+        where u.company_id = c.id and u.department_id = d.id
+        limit 50;
+```
   
   [http://localhost:8080/docs#/default](http://localhost:8080/docs#/default "Title")
   
