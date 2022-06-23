@@ -29,7 +29,7 @@ services:
       RAW_DATA: /src/datalake/code/raw/Sample.csv
     networks:
       - postgres
-    command: bash -c "python3 -u ./datalake/code/main.py"
+    command: bash -c "python3 -u ./datalake/code/test/state_tests.py && python3 -u ./datalake/code/main.py"
     volumes:
       - ./:/src/:ro
 
