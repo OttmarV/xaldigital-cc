@@ -1,0 +1,8 @@
+db:
+  host: postgres
+  database: db
+  user: postgres
+  password: example
+
+raw_data:
+  location: datalake/code/raw/Sample.csv

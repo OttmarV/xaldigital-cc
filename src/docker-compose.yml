@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "example"
+      POSTGRES_DB: "db"
+      RAW_DATA: /datalake/code/raw/Sample.csv
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  centos:
+    build: ./datalake/
+    container_name: centos7
+    depends_on:
+      - db
+    environment:
+      POSTGRES_HOST: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "example"
+      POSTGRES_DB: "db"
+      RAW_DATA: /src/datalake/code/raw/Sample.csv
+    networks:
+      - postgres
+    command: bash -c "python3 -u ./datalake/code/main.py"
+    volumes:
+      - ./:/src/:ro
+
+networks:
+  postgres:
+    driver: bridge
