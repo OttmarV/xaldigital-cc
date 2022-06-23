@@ -31,7 +31,7 @@ foo@bar:~$ docker-compose up
 
   6. Once the load is completed, centos container will go offline. Postgres and api containers will still be running. To make sure data was loaded successfully, we will run a query through our API, reading 50 rows from the table users within the database.
 
-Query:
+Query (query executes by itself following the next images):
 ``` sql
         SELECT u.id, u.first_name, u.last_name, u.email, u.phone1, u.phone2,
         u.zip, u.address, u.city, u.state, d.department, c.company
